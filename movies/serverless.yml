@@ -1,0 +1,77 @@
+service: movies
+
+#plugins:
+#  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.7
+  region: us-east-1
+  environment:
+    DYNAMODB_TABLE: "movies"
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource: "${ssm:/database/movies/movies_ref~true}"
+  deploymentBucket:
+    blockPublicAccess: true
+
+functions:
+  create:
+    handler: movies/create.create
+    events:
+      - http:
+          path: movies
+          method: post
+          cors: true
+
+  delete:
+    handler: movies/delete.delete
+    events:
+      - http:
+          path: movies/{id}
+          method: delete
+          cors: true
+          integration: lambda
+          request:
+            paths:
+              id: true
+
+  read:
+    handler: movies/read.read
+    events:
+      - http:
+          path: movies/{id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            paths:
+              id: true
+
+  update:
+    handler: movies/update.update
+    events:
+      - http:
+          path: movies/{id}
+          method: put
+          cors: true
+          integration: lambda
+          request:
+            paths:
+              id: true
+
+  list:
+    handler: movies/list.list
+    events:
+      - http:
+          path: movies
+          method: get
+          cors: true
