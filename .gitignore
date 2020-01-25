@@ -22,4 +22,10 @@ package.json
 # Serverless directories
 .serverless
 
+# node_modules generated from serverless-python-requirements
 node_modules/
+
+# terraform
+versions.tf
+.terraform/
+*.tfstate*
