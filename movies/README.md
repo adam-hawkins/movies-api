@@ -22,7 +22,7 @@ GET /movies
     },
     {
         "id": "b92fdae2-3a8c-11ea-9f6d-38f9d36e1235",
-        "title": "Star Wars Episod V: Empire Strikes Back",
+        "title": "Star Wars Episode V: Empire Strikes Back",
         "format": "VHS",
         "length": 124,
         "release_year": 1980,
@@ -30,7 +30,7 @@ GET /movies
     }
     {
         "id": "b92fdae2-3a8c-11ea-9f6d-38f9d36e1236",
-        "title": "Star Wars Episod VI: Return of the Jedi",
+        "title": "Star Wars Episode VI: Return of the Jedi",
         "format": "VHS",
         "length": 132,
         "release_year": 1983,
