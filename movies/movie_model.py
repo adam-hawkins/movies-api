@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from pynamodb.attributes import UnicodeAttribute, BooleanAttribute, UTCDateTimeAttribute
+from pynamodb.attributes import UnicodeAttribute, NumberAttribute
 from pynamodb.models import Model
 
 
@@ -14,7 +14,7 @@ class MovieModel(Model):
             region = 'us-east-1'
             host = 'https://dynamodb.us-east-1.amazonaws.com'
 
-    movie_id = UnicodeAttribute(hash_key=True, null=False)
+    id = UnicodeAttribute(hash_key=True, null=False)
     title = UnicodeAttribute(null=False) # 1 - 50 chars
     release_format = UnicodeAttribute(null=False) #only VHS, DVD, ans Streaming acceptable
     length = NumberAttribute(default=60) # length in minutes between 0-500
@@ -25,3 +25,8 @@ class MovieModel(Model):
         '''save the movie to the dynamo table'''
         self.updatedAt = datetime.now()
         super(MovieModel, self).save()
+
+
+    def __iter__(self):
+        for name, attr in self.get_attributes().items():
+            yield name, attr.serialize(getattr(self, name))
