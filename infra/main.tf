@@ -57,7 +57,7 @@ resource "aws_cognito_user_pool" "movies_user_pool" {
     name                = "email"
     attribute_data_type = "String"
     mutable             = false
-    required            = true
+    required            = false
   }
 }
 
