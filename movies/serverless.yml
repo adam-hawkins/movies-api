@@ -1,7 +1,7 @@
 service: movies
 
-#plugins:
-#  - serverless-python-requirements
+plugins:
+  - serverless-python-requirements
 
 provider:
   name: aws
@@ -19,21 +19,20 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         - dynamodb:DescribeTable
-      Resource: "${ssm:/database/movies/movies_ref~true}"
-  deploymentBucket:
-    blockPublicAccess: true
+      Resource: "arn:aws:dynamodb:us-east-1:427334772666:table/movies"
 
 functions:
   create:
-    handler: movies/create.create
+    handler: create.create
     events:
       - http:
           path: movies
           method: post
           cors: true
+          authenticator: aws_iam
 
   delete:
-    handler: movies/delete.delete
+    handler: delete.delete
     events:
       - http:
           path: movies/{id}
@@ -44,8 +43,8 @@ functions:
             paths:
               id: true
 
-  read:
-    handler: movies/read.read
+  get:
+    handler: get.get
     events:
       - http:
           path: movies/{id}
@@ -57,7 +56,7 @@ functions:
               id: true
 
   update:
-    handler: movies/update.update
+    handler: update.update
     events:
       - http:
           path: movies/{id}
@@ -69,7 +68,7 @@ functions:
               id: true
 
   list:
-    handler: movies/list.list
+    handler: list.movie_list
     events:
       - http:
           path: movies
