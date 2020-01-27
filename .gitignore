@@ -29,3 +29,6 @@ node_modules/
 versions.tf
 .terraform/
 *.tfstate*
+
+# sh files used for testing, might remove later for anything that seems particularly useful
+*.sh

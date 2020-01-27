@@ -58,6 +58,11 @@ resource "aws_cognito_user_pool" "movies_user_pool" {
     attribute_data_type = "String"
     mutable             = false
     required            = false
+
+    string_attribute_constraints {
+      min_length = 0
+      max_length = 2048
+    }
   }
 }
 

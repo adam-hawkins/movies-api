@@ -29,7 +29,10 @@ functions:
           path: movies
           method: post
           cors: true
-          authenticator: aws_iam
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   delete:
     handler: delete.delete
@@ -39,6 +42,10 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
           request:
             paths:
               id: true
@@ -51,6 +58,10 @@ functions:
           method: get
           cors: true
           integration: lambda
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
           request:
             paths:
               id: true
@@ -63,6 +74,10 @@ functions:
           method: put
           cors: true
           integration: lambda
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
           request:
             paths:
               id: true
@@ -74,3 +89,20 @@ functions:
           path: movies
           method: get
           cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+resources:
+  Resources:
+    ApiGatewayAuthorizer:
+      DependsOn:
+        - ApiGatewayRestApi
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: cognito-authorizer
+        IdentitySource: method.request.header.Authorization
+        RestApiId: "la9uslkg75"
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - "arn:aws:cognito-idp:us-east-1:427334772666:userpool/us-east-1_la6Bl4dEZ"
