@@ -44,7 +44,6 @@ GET /movies
 ```
 POST /movies
 ```
-If a movie with the same title already exists, the existing movie will be overwritten
 
 ### Response
 `201 Created` on success
