@@ -4,17 +4,18 @@ import uuid
 
 from movie_model import MovieModel
 from utils.response import response
+from pynamodb.exceptions import DoesNotExist
 
 
 def update(event, context):
-    data = json.loads(event['body'])
+    print(event)
+    data = dict(event['body'])
 
     try:
         found_movie = MovieModel.get(hash_key=event['path']['id'])
     except DoesNotExist:
         return response(404, {'error_message': 'Movie was not found'})
 
-    print(event)
     logging.info(data)
 
     if 'title' in data.keys() and data['title']:
@@ -24,7 +25,7 @@ def update(event, context):
     if 'release_format' in data.keys() and data['release_format']:
         found_movie.release_format = data['release_format']
     if 'rating' in data.keys() and data['rating']:
-        found_movie.release_year = data['rating']
+        found_movie.rating = data['rating']
     if 'length' in data.keys() and data['length']:
         found_movie.length = data['length']
 
